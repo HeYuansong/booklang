@@ -14,21 +14,13 @@
 			(put-hash-table! i-table object-key object-value)
 			(put-hash-table! i-table args-key args-value)
 			(put-hash-table! i-table message inside-table)
-
-			(set! inside-object 
-				(my-eval (get-hash-table inside-table 'object-value 'error) i-table)
-			)
-			(set! inside-args 
-				(my-eval (get-hash-table inside-table 'args-value 'error) i-table)
-			)
-			(set! inside-message (get-hash-table inside-table 'message-value 'error))
 			(my-eval
-				`(
-					,inside-object
-					,inside-message
-					,inside-args
+					`(
+					,(my-eval (get-hash-table inside-table 'object-value 'error) i-table)
+					,(get-hash-table inside-table 'message-value 'error)
+					,(my-eval (get-hash-table inside-table 'args-value 'error) i-table)
 				)
-				i-table
+				table
 			)
 
 		)
